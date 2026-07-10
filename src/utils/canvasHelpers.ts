@@ -74,12 +74,12 @@ export const DEFAULT_STRIP_OPTIONS: Omit<PhotoStripOptions, 'frame'> = {
   watermarkEnabled: true,
 };
 
-const loadImage = (dataUrl: string): Promise<HTMLImageElement> =>
+const loadImage = (source: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const image = new Image();
     image.onload = () => resolve(image);
     image.onerror = () => reject(new Error('Gagal memuat salah satu foto.'));
-    image.src = dataUrl;
+    image.src = source;
   });
 
 const drawCoverImage = (
@@ -191,6 +191,12 @@ const drawFrameBackground = (
   height: number,
   frame: FrameVariant,
 ) => {
+  if (frame.overlayImageUrl) {
+    context.fillStyle = '#ffffff';
+    context.fillRect(0, 0, width, height);
+    return;
+  }
+
   context.fillStyle = frame.background;
   context.fillRect(0, 0, width, height);
 
@@ -298,6 +304,11 @@ export const drawPhotoStrip = async (
   context.font = '700 18px Poppins, Arial, sans-serif';
   context.textAlign = 'center';
   context.fillText(new Date().toLocaleDateString(), options.width / 2, footerY + 100);
+
+  if (options.frame.overlayImageUrl) {
+    const overlayImage = await loadImage(options.frame.overlayImageUrl);
+    context.drawImage(overlayImage, 0, 0, options.width, stripHeight);
+  }
 };
 
 export const canvasToPngBlob = (canvas: HTMLCanvasElement): Promise<Blob> =>

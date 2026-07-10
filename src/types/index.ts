@@ -1,5 +1,7 @@
 export type AppStep = 'start' | 'camera' | 'preview';
 
+export type PhotoCount = 1 | 2 | 3 | 4;
+
 export type PhotoShot = {
   id: string;
   dataUrl: string;
@@ -23,6 +25,7 @@ export type FrameVariant = {
   accent: string;
   secondary: string;
   textColor: string;
+  overlayImageUrl?: string;
 };
 
 export type PhotoStripOptions = {

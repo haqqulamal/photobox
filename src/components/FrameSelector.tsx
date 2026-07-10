@@ -12,6 +12,10 @@ export default function FrameSelector({
   onSelectFrame,
 }: FrameSelectorProps) {
   const getSwatchBackground = (frame: FrameVariant) => {
+    if (frame.overlayImageUrl) {
+      return `url(${frame.overlayImageUrl}) center / cover, ${frame.background}`;
+    }
+
     if (frame.pattern === 'checker') {
       return `conic-gradient(${frame.secondary} 25%, ${frame.background} 0 50%, ${frame.secondary} 0 75%, ${frame.background} 0)`;
     }
@@ -53,7 +57,8 @@ export default function FrameSelector({
               className="h-10 w-10 border-4 border-ink"
               style={{
                 background: getSwatchBackground(frame),
-                backgroundSize: frame.pattern === 'checker' ? '18px 18px' : undefined,
+                backgroundSize:
+                  frame.pattern === 'checker' && !frame.overlayImageUrl ? '18px 18px' : undefined,
               }}
             />
             <span>{frame.name}</span>

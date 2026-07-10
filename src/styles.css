@@ -107,6 +107,36 @@ button:disabled {
   padding: 0.45rem 0.8rem;
 }
 
+.count-option {
+  align-items: center;
+  background: #ffffff;
+  border: 4px solid #050505;
+  box-shadow: 5px 5px 0 #050505;
+  color: #050505;
+  cursor: pointer;
+  display: flex;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 900;
+  justify-content: center;
+  min-height: 4rem;
+  transition:
+    transform 120ms steps(2, end),
+    box-shadow 120ms steps(2, end);
+}
+
+.count-option:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 #050505;
+}
+
+.count-option:active,
+.count-option.is-selected {
+  background: #ff3ea5;
+  color: #ffffff;
+  transform: translate(4px, 4px);
+  box-shadow: 1px 1px 0 #050505;
+}
+
 .camera-frame {
   aspect-ratio: 4 / 3;
   border: 5px solid #050505;

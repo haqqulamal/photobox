@@ -2,17 +2,22 @@ import { RotateCcw, Play, SwitchCamera, X } from 'lucide-react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import CountdownTimer from './CountdownTimer';
-import { CAPTURE_GAP_MS, COUNTDOWN_FROM, PHOTO_COUNT } from '../config';
+import { CAPTURE_GAP_MS, COUNTDOWN_FROM } from '../config';
 import { useCamera } from '../hooks/useCamera';
 import { usePhotoCapture } from '../hooks/usePhotoCapture';
-import { PhotoShot } from '../types';
+import { PhotoCount, PhotoShot } from '../types';
 
 type CameraCaptureProps = {
+  photoCount: PhotoCount;
   onComplete: (photos: PhotoShot[]) => void;
   onReset: () => void;
 };
 
-export default function CameraCapture({ onComplete, onReset }: CameraCaptureProps) {
+export default function CameraCapture({
+  photoCount,
+  onComplete,
+  onReset,
+}: CameraCaptureProps) {
   const webcamRef = useRef<Webcam | null>(null);
   const [facingMode, setFacingMode] = useState<'user' | 'environment'>('user');
   const { cameraError, handleUserMedia, handleUserMediaError, resetCameraError } = useCamera();
@@ -47,7 +52,7 @@ export default function CameraCapture({ onComplete, onReset }: CameraCaptureProp
     countdownFrom: COUNTDOWN_FROM,
     gapMs: CAPTURE_GAP_MS,
     onComplete,
-    photoCount: PHOTO_COUNT,
+    photoCount,
   });
 
   const resetCapture = () => {
@@ -69,7 +74,7 @@ export default function CameraCapture({ onComplete, onReset }: CameraCaptureProp
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="brutal-badge mb-3 inline-flex bg-acid">
-              FOTO {Math.max(currentIndex, photos.length + 1)}/{PHOTO_COUNT}
+              FOTO {Math.min(Math.max(currentIndex, photos.length + 1), photoCount)}/{photoCount}
             </p>
             <h1 className="font-display text-5xl font-black uppercase leading-none sm:text-7xl">
               POSE NOW.
@@ -127,7 +132,7 @@ export default function CameraCapture({ onComplete, onReset }: CameraCaptureProp
           </div>
 
           <aside className="grid content-start gap-4">
-            {Array.from({ length: PHOTO_COUNT }, (_, index) => {
+            {Array.from({ length: photoCount }, (_, index) => {
               const photo = photos[index];
               const isActive = currentIndex === index + 1 && status !== 'idle';
 
