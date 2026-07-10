@@ -51,7 +51,7 @@ export default function StartScreen({
 
         <div className="rotate-1 border-4 border-ink bg-electric p-4 shadow-brutal-lg">
           <div className="grid gap-4">
-            {['COUNTDOWN 3-2-1', `AUTO SNAP ${photoCount}X`, 'UPLOAD FRAME PNG'].map((label, index) => (
+            {['COUNTDOWN 3-2-1', `AUTO SNAP ${photoCount}X`, 'PILIH FRAME'].map((label, index) => (
               <div
                 className="flex items-center justify-between border-4 border-ink bg-white p-4 font-display text-2xl font-black"
                 key={label}

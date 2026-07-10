@@ -191,12 +191,6 @@ const drawFrameBackground = (
   height: number,
   frame: FrameVariant,
 ) => {
-  if (frame.overlayImageUrl) {
-    context.fillStyle = '#ffffff';
-    context.fillRect(0, 0, width, height);
-    return;
-  }
-
   context.fillStyle = frame.background;
   context.fillRect(0, 0, width, height);
 
@@ -304,11 +298,6 @@ export const drawPhotoStrip = async (
   context.font = '700 18px Poppins, Arial, sans-serif';
   context.textAlign = 'center';
   context.fillText(new Date().toLocaleDateString(), options.width / 2, footerY + 100);
-
-  if (options.frame.overlayImageUrl) {
-    const overlayImage = await loadImage(options.frame.overlayImageUrl);
-    context.drawImage(overlayImage, 0, 0, options.width, stripHeight);
-  }
 };
 
 export const canvasToPngBlob = (canvas: HTMLCanvasElement): Promise<Blob> =>

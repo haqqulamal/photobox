@@ -1,4 +1,4 @@
-import { Download, RotateCcw, Upload, X } from 'lucide-react';
+import { Download, RotateCcw } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import FrameSelector from './FrameSelector';
 import { FRAME_VARIANTS, DEFAULT_STRIP_OPTIONS, canvasToPngBlob, drawPhotoStrip } from '../utils/canvasHelpers';
@@ -11,15 +11,9 @@ type PhotoStripProps = {
 
 export default function PhotoStrip({ photos, onRetake }: PhotoStripProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFrame, setSelectedFrame] = useState<FrameVariant>(FRAME_VARIANTS[0]);
-  const [customFrame, setCustomFrame] = useState<FrameVariant | null>(null);
   const [watermarkEnabled, setWatermarkEnabled] = useState(true);
   const [renderError, setRenderError] = useState<string | null>(null);
-  const availableFrames = useMemo(
-    () => (customFrame ? [customFrame, ...FRAME_VARIANTS] : FRAME_VARIANTS),
-    [customFrame],
-  );
   const stripOptions = useMemo(
     () => ({
       ...DEFAULT_STRIP_OPTIONS,
@@ -41,49 +35,6 @@ export default function PhotoStrip({ photos, onRetake }: PhotoStripProps) {
       setRenderError(error instanceof Error ? error.message : 'Gagal membuat strip.');
     });
   }, [photos, stripOptions]);
-
-  const uploadCustomFrame = (file: File) => {
-    if (file.type !== 'image/png' && !file.name.toLowerCase().endsWith('.png')) {
-      setRenderError('Frame harus file PNG. Pilih gambar dengan format .png.');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result !== 'string') {
-        setRenderError('Frame PNG gagal dibaca.');
-        return;
-      }
-
-      const frame: FrameVariant = {
-        id: 'custom-upload',
-        name: 'UPLOAD PNG',
-        pattern: 'solid',
-        background: '#ffffff',
-        border: '#050505',
-        accent: '#ffd62e',
-        secondary: '#ff3ea5',
-        textColor: '#050505',
-        overlayImageUrl: reader.result,
-      };
-
-      setCustomFrame(frame);
-      setSelectedFrame(frame);
-      setRenderError(null);
-    };
-    reader.onerror = () => setRenderError('Frame PNG gagal dibaca.');
-    reader.readAsDataURL(file);
-  };
-
-  const clearCustomFrame = () => {
-    setCustomFrame(null);
-    setSelectedFrame(FRAME_VARIANTS[0]);
-    setRenderError(null);
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
 
   const downloadStrip = async () => {
     const canvas = canvasRef.current;
@@ -124,52 +75,10 @@ export default function PhotoStrip({ photos, onRetake }: PhotoStripProps) {
 
           <div className="border-4 border-ink bg-white p-4 shadow-brutal">
             <FrameSelector
-              frames={availableFrames}
+              frames={FRAME_VARIANTS}
               onSelectFrame={setSelectedFrame}
               selectedFrame={selectedFrame}
             />
-          </div>
-
-          <div className="border-4 border-ink bg-white p-4 shadow-brutal">
-            <div className="flex flex-col gap-3">
-              <p className="text-lg font-black uppercase">Upload frame sendiri</p>
-              <input
-                accept="image/png"
-                className="hidden"
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-
-                  if (file) {
-                    uploadCustomFrame(file);
-                  }
-                }}
-                ref={fileInputRef}
-                type="file"
-              />
-              <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
-                <button
-                  className="brutal-button bg-acid"
-                  onClick={() => fileInputRef.current?.click()}
-                  type="button"
-                >
-                  <Upload size={24} strokeWidth={3} />
-                  PILIH PNG
-                </button>
-                {customFrame && (
-                  <button
-                    aria-label="Hapus frame upload"
-                    className="brutal-icon-button bg-punch text-white"
-                    onClick={clearCustomFrame}
-                    type="button"
-                  >
-                    <X size={26} strokeWidth={3} />
-                  </button>
-                )}
-              </div>
-              <p className="border-4 border-ink bg-sun p-3 text-sm font-black">
-                Wajib PNG. Gunakan frame transparan agar foto tidak tertutup.
-              </p>
-            </div>
           </div>
 
           <label className="flex cursor-pointer items-center justify-between gap-4 border-4 border-ink bg-acid p-4 text-lg font-black shadow-brutal-sm">

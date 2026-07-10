@@ -25,7 +25,6 @@ export type FrameVariant = {
   accent: string;
   secondary: string;
   textColor: string;
-  overlayImageUrl?: string;
 };
 
 export type PhotoStripOptions = {
