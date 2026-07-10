@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Space+Grotesk:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,7 +7,7 @@
 :root {
   color: #050505;
   background: #fffaf0;
-  font-family: Inter, Arial, sans-serif;
+  font-family: Poppins, Arial, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -121,7 +121,7 @@ button:disabled {
   box-shadow: 10px 10px 0 #050505;
   color: #ffffff;
   display: flex;
-  font-family: 'Space Grotesk', Inter, Arial, sans-serif;
+  font-family: Poppins, Arial, sans-serif;
   font-size: clamp(7rem, 24vw, 18rem);
   font-weight: 900;
   height: clamp(10rem, 34vw, 24rem);
@@ -137,7 +137,7 @@ button:disabled {
   box-shadow: 5px 5px 0 #050505;
   color: #050505;
   display: flex;
-  font-family: 'Space Grotesk', Inter, Arial, sans-serif;
+  font-family: Poppins, Arial, sans-serif;
   font-size: 3rem;
   font-weight: 900;
   justify-content: center;

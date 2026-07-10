@@ -288,14 +288,14 @@ export const drawPhotoStrip = async (
 
   if (options.watermarkEnabled) {
     context.fillStyle = options.frame.textColor;
-    context.font = '900 34px Arial, sans-serif';
+    context.font = '900 34px Poppins, Arial, sans-serif';
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillText(WATERMARK_TEXT, options.width / 2, footerY + 53);
   }
 
   context.fillStyle = options.frame.textColor;
-  context.font = '700 18px Arial, sans-serif';
+  context.font = '700 18px Poppins, Arial, sans-serif';
   context.textAlign = 'center';
   context.fillText(new Date().toLocaleDateString(), options.width / 2, footerY + 100);
 };

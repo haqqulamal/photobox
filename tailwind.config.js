@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Space Grotesk"', 'Inter', 'Arial', 'sans-serif'],
-        body: ['Inter', 'Arial', 'sans-serif'],
+        display: ['Poppins', 'Arial', 'sans-serif'],
+        body: ['Poppins', 'Arial', 'sans-serif'],
       },
       boxShadow: {
         brutal: '6px 6px 0 #000',
